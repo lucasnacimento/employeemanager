@@ -152,6 +152,8 @@
  </div>
 </div>
 
+<p-paginator class="p-mb-5" [rows]="page.size" [totalRecords]="page.totalElements"  (onPageChange)="changePage($event)" ></p-paginator>
+
 <!-- Message No Employees -->
 <div *ngIf="employees?.length == 0" class="col-lg-12 col-md-12 col-xl-12">
   <div class="alert alert-info" role="alert">

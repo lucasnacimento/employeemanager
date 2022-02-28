@@ -1,8 +1,9 @@
-import { Employee } from './employee';
+import { Employee } from '../employee';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
+import { Page } from '../pagination/pagination';
 
 @Injectable({
   providedIn: 'root'
@@ -15,6 +16,10 @@ export class EmployeeService {
 
   public getEmployees(): Observable<Employee[]> {
     return this.http.get<Employee[]>(`${this.apiServerUrl}/employee/all`);
+  }
+
+  public getEmployeesPages(page: number, size: number): Observable<Page> {
+    return this.http.get<Page>(`${this.apiServerUrl}/employee/all?page=${page}&size=${size}`);
   }
 
   public addEmployee(employee: Employee): Observable<Employee> {
