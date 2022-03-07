@@ -7,6 +7,7 @@ import { Page } from './pagination/pagination';
 import { AlertModalService } from './services/alert-modal.service';
 
 
+
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -17,7 +18,7 @@ export class AppComponent implements OnInit {
   public editEmployee: Employee | null | undefined;
   public deleteEmployee!: Employee;
   public page!: Page;
-  public message?: string;
+  public messageMap? = new Map<string, string>();
 
 
   constructor(private employeeService: EmployeeService, private alertService: AlertModalService){
@@ -39,16 +40,15 @@ export class AppComponent implements OnInit {
   }
 
   public addEmployee(addForm: NgForm): void {
-    document.getElementById('add-employee-form')?.click();
     this.employeeService.addEmployee(addForm.value).subscribe(
       (response: Employee) => {
+        document.getElementById('add-employee-form')?.click();
         this.alertService.success('Employee created successfully!', "Created");
         this.pagesEmloyees(this.page.number, this.page.size);
         addForm.reset();
       },
       (error: HttpErrorResponse) => {
-        alert(error.message);
-        addForm.reset();
+        this.validateFields(error, addForm);
       }
     );
   }
@@ -106,6 +106,35 @@ export class AppComponent implements OnInit {
   }
 
 
+
+  public clearStyleOfFields(addForm: NgForm): void {
+    let vetor: Array<string> = addForm.form.value;
+    Object.keys(vetor).forEach(e => {
+      document.getElementById(e)?.classList.add("ng-valid");
+    });
+    addForm.reset();
+  }
+
+  public validateFields(error: HttpErrorResponse, addForm: NgForm): void {
+    this.messageMap?.clear();
+    let vetor: Array<string> = addForm.form.value;
+    let array = error.error;
+    array.forEach((er: any) => {
+      this.alertService.danger("","You must fill in the fields correctly.", 8000);
+      this.messageMap?.set(er.fieldName, er.messageUser);
+
+    });
+
+    Object.keys(vetor).forEach(e => {
+      if(this.messageMap?.has(e)){
+        document.getElementById(e)?.classList.add("ng-invalid");
+      }else{
+        document.getElementById(e)?.classList.add("ng-valid");
+        document.getElementById(e)?.classList.remove("ng-invalid");
+      }
+    });
+
+  }
 
 
   public openModal(employee: Employee| null, mode: string): void {

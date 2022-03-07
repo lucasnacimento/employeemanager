@@ -8,23 +8,23 @@ export class AlertModalService {
 
   constructor() { }
 
-  public success(message: string, title: string): void {
-    this.showAlert(title, message, 'success');
+  public success(message: string, title: string, time?: number): void {
+    this.showAlert(title, message, 'success', time);
   }
-  public info(message: string, title: string): void {
-    this.showAlert(title, message, 'info');
+  public info(message: string, title: string, time?: number): void {
+    this.showAlert(title, message, 'info', time);
   }
-  public danger(message: string, title: string): void {
-    this.showAlert(title, message, 'error');
+  public danger(message: string, title: string, time?: number): void {
+    this.showAlert(title, message, 'error', time);
   }
 
 
-  private showAlert(title: string, message: string, icon: SweetAlertIcon): void {
+  private showAlert(title: string, message: string, icon: SweetAlertIcon, time?: number): void {
     const Toast = Swal.mixin({
       toast: true,
       position: 'top-end',
       showConfirmButton: false,
-      timer: 3000,
+      timer: (time === undefined) ? 3000: time,
       timerProgressBar: true,
       didOpen: (toast) => {
         toast.addEventListener('mouseenter', Swal.stopTimer)

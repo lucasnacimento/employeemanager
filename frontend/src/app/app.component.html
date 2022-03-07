@@ -51,7 +51,7 @@
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title" id="addEmployeeModalLabel">Add Employee</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        <button (click)="clearStyleOfFields(addForm)" type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
@@ -59,26 +59,30 @@
         <form #addForm="ngForm" (ngSubmit)="addEmployee(addForm)">
           <div class="form-group">
             <label for="name">Name</label>
-            <input type="text" ngModel name="name" class="form-control" id="name" placeholder="Name" required>
+            <input type="text" #name="ngModel" ngModel name="name" class="form-control" id="name" placeholder="Name" required>
+            <p *ngIf="messageMap?.has('name')" class="alert alert-danger" role="alert">{{ messageMap?.get("name") }}</p>
           </div>
           <div class="form-group">
             <label for="email">Email Address</label>
-            <input type="email" ngModel name="email" class="form-control" id="email" placeholder="Email" required>
+            <input type="email" #email="ngModel" ngModel name="email" class="form-control" id="email" placeholder="Email" required>
+            <p *ngIf="messageMap?.has('email')" class="alert alert-danger" role="alert">{{ messageMap?.get('email')}}</p>
           </div>
           <div class="form-group">
             <label for="phone">Job title</label>
-            <input type="text" ngModel name="jobTitle" class="form-control" id="jobTitle" placeholder="job Title" required>
+            <input type="text" #jobTitle="ngModel" ngModel name="jobTitle" class="form-control" id="jobTitle" placeholder="job Title" required>
+            <p *ngIf="messageMap?.has('jobTitle')" class="alert alert-danger" role="alert">{{ messageMap?.get('jobTitle')}}</p>
           </div>
           <div class="form-group">
             <label for="phone">Phone</label>
-            <input type="text" ngModel name="phone" class="form-control" id="phone" placeholder="Phone" required>
+            <input type="number" #phone="ngModel" ngModel name="phone" class="form-control" id="phone" placeholder="Phone" required>
+            <p *ngIf="messageMap?.has('phone')" class="alert alert-danger" role="alert">{{ messageMap?.get('phone')}}</p>
           </div>
           <div class="form-group">
             <label for="phone">Image URL</label>
             <input type="text" ngModel name="imageUrl" class="form-control" id="imageUrl" placeholder="Image URL" required>
           </div>
           <div class="modal-footer">
-            <button type="button" id="add-employee-form" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            <button (click)="clearStyleOfFields(addForm)" type="button" id="add-employee-form" class="btn btn-danger" data-dismiss="modal">Close</button>
             <button [disabled]="addForm.invalid" type="submit" class="btn btn-primary">Save changes</button>
           </div>
         </form>
@@ -152,7 +156,7 @@
  </div>
 </div>
 
-<p-paginator class="p-mb-5" [rows]="page.size" [totalRecords]="page.totalElements"  (onPageChange)="changePage($event)" ></p-paginator>
+<p-paginator *ngIf="employees!.length > 0" [rows]="page.size" [totalRecords]="page.totalElements"  (onPageChange)="changePage($event)" ></p-paginator>
 
 <!-- Message No Employees -->
 <div *ngIf="employees?.length == 0" class="col-lg-12 col-md-12 col-xl-12">
