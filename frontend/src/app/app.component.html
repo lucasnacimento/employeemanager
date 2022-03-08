@@ -1,20 +1,22 @@
 <!-- NavBar -->
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-  <img class="mr-5 " src="../assets/img/logo-employee01.png" style="height: 9vh;">
-  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor02" aria-controls="navbarColor02" aria-expanded="false" aria-label="Toggle navigation">
-  <span class="navbar-toggler-icon"></span>
-  </button>
-  <div class="collapse navbar-collapse" id="navbarColor02">
-     <ul class="navbar-nav mr-auto">
-        <li class="nav-item active">
-           <a class="nav-link" (click)="openModal(null, 'add')">Add Employee <span class="sr-only">(current)</span></a>
-        </li>
-     </ul>
-     <form class="form-inline my-2 my-lg-0">
-        <input type="search" (ngModelChange)="searchEmployees(key.value)" #key="ngModel" ngModel name="key" id="searchName" class="form-control mr-sm-2" placeholder="Search employees..." required>
-     </form>
-  </div>
-</nav>
+<header class="navbar-dark bg-dark">
+  <nav class="navbar navbar-expand-lg container">
+    <img class="mr-5 " src="../assets/img/logo-employee01.png" style="height: 9vh;">
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor02" aria-controls="navbarColor02" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarColor02">
+      <ul class="navbar-nav mr-auto">
+          <li class="nav-item active">
+            <a class="nav-link" (click)="openModal(null, 'add')">Add Employee <span class="sr-only">(current)</span></a>
+          </li>
+      </ul>
+      <form class="form-inline my-2 my-lg-0">
+          <input type="search" (ngModelChange)="searchEmployees(key.value)" #key="ngModel" ngModel name="key" id="searchName" class="form-control mr-sm-2" placeholder="Search employees..." required>
+      </form>
+    </div>
+  </nav>
+</header>
 
 <!-- Model Employee -->
 <div class="container" id="main-container">
@@ -97,7 +99,7 @@
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title" id="addEmployeeModalLabel">Edit Employee {{editEmployee?.name}}</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        <button (click)="this.editEmployee = editForm.value" type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
