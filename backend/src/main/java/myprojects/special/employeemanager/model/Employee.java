@@ -28,6 +28,7 @@ public class Employee implements Serializable {
     @Column(nullable = false, length = 120)
     private String name;
 
+    @NotBlank(message = "{name.not.blank}")
     @Email(message = "{email.email}")
     private  String email;
 

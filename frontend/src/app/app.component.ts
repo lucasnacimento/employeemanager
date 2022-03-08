@@ -56,12 +56,13 @@ export class AppComponent implements OnInit {
   public updateEmployee(employee: Employee): void {
     this.employeeService.updateEmployee(employee).subscribe(
       (response: Employee) => {
-        console.log(response);
+        document.getElementById('update-employee-form')?.click();
         this.pagesEmloyees(this.page.number, this.page.size);
         this.alertService.success('Employee data has been updated!', "Updated");
+        this.messageMap?.clear();
       },
       (error: HttpErrorResponse) => {
-        alert(error.message);
+        this.validateFields(error);
       }
     );
   }
@@ -108,17 +109,24 @@ export class AppComponent implements OnInit {
 
 
   public clearStyleOfFields(addForm: NgForm): void {
-    let vetor: Array<string> = addForm.form.value;
-    Object.keys(vetor).forEach(e => {
-      document.getElementById(e)?.classList.add("ng-valid");
-    });
-    addForm.reset();
+      let vetor: Array<string> = addForm.form.value;
+      Object.keys(vetor).forEach(e => {
+        document.getElementById(e)?.classList.add("ng-valid");
+      });
+      addForm.reset();
   }
 
-  public validateFields(error: HttpErrorResponse, addForm: NgForm): void {
+  public validateFields(error: HttpErrorResponse, addForm?: NgForm): void {
     this.messageMap?.clear();
-    let vetor: Array<string> = addForm.form.value;
+    let vetor: Array<string> = new Array();
+    if (addForm instanceof NgForm) {
+      vetor = addForm.form.value;
+    }else if(this.editEmployee !== null && this.editEmployee !== undefined) {
+      vetor = Object.keys(this.editEmployee);
+    }
+
     let array = error.error;
+    console.log(array);
     array.forEach((er: any) => {
       this.alertService.danger("","You must fill in the fields correctly.", 8000);
       this.messageMap?.set(er.fieldName, er.messageUser);
@@ -126,6 +134,7 @@ export class AppComponent implements OnInit {
     });
 
     Object.keys(vetor).forEach(e => {
+      console.log(e);
       if(this.messageMap?.has(e)){
         document.getElementById(e)?.classList.add("ng-invalid");
       }else{

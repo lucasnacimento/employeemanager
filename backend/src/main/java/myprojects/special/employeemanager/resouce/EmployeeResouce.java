@@ -43,7 +43,7 @@ public class EmployeeResouce {
     }
 
     @PutMapping("/update")
-    public ResponseEntity<Employee> updateEmployee(@RequestBody Employee employee) {
+    public ResponseEntity<Employee> updateEmployee(@RequestBody @Valid Employee employee) {
         Employee updateEmployee = employeeService.updateEmployee(employee);
         return new ResponseEntity<>(updateEmployee, HttpStatus.OK);
     }
